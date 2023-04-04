@@ -9,3 +9,5 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	var user *model.User
 	incomingRoutes.POST("/createUser", service.CreateUser())
 }
+
+// где main ? где сервер ? 

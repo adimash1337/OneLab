@@ -12,7 +12,7 @@ type Config struct {
 func New() (*Config, error) {
 	config := Config{}
 	if err := env.Parse(&config); err != nil {
-		log.Print("")
+		log.Print("") // тут лучше либо вернуть ошибку
 	}
 	return &config, nil
 }

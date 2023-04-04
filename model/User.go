@@ -1,5 +1,8 @@
 package model
 
+
+// за валидацию молодец
+// За snake_case нет ( 
 type User struct {
 	ID         int     `json:"id"`
 	First_Name *string `json:"first_name" validate:"required,min=2,max=30"`

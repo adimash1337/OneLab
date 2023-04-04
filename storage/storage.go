@@ -10,6 +10,10 @@ import (
 	"net/http"
 )
 
+
+// Почему не вынес в отдельную папку inMemory ? 
+// Почему нету разделения на сущность / файл manager для инициализации репы
+// 
 type InMemoryUserRepository struct {
 	users map[int]*model.User
 }
@@ -21,12 +25,12 @@ func NewInMemoryUserRepository() *InMemoryUserRepository {
 }
 
 type UserRepository interface {
-	GetByID(id int) (*model.User, error)
+	GetByID(id int) (*model.User, error) // id => ID 
 	Create(user *model.User) error
 }
 
 func (repo *InMemoryUserRepository) GetByID(id int) gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(c *gin.Context) { // Откуда тут gin.Context ? почему у тебя хендлер на уровне репозитория ? 
 		var user model.User
 		var founduser model.User
 		if err := c.BindJSON(&user); err != nil {
@@ -34,6 +38,8 @@ func (repo *InMemoryUserRepository) GetByID(id int) gin.HandlerFunc {
 			return
 		}
 
+		// почему это здесь а не в отедльной функции ? 
+		// -------- Приведи пожаулйста в порядок в соответствии с чистой архитектурой. Дальше не смотрел. 
 		PasswordIsValid, msg := func(userpassword string, givenpassword string) (bool, string) {
 			err := bcrypt.CompareHashAndPassword([]byte(givenpassword), []byte(userpassword))
 			valid := true

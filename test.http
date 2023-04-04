@@ -1,0 +1,2 @@
+GET localhost:8000/user/add
+Accept: application/json

@@ -1,0 +1,618 @@
+definitions:
+  models.Book:
+    properties:
+      author:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  models.Note:
+    properties:
+      book_id:
+        type: string
+      date_borrowed:
+        type: string
+      date_returned:
+        type: string
+      due_date:
+        type: string
+      id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.UpdatePasswordReq:
+    properties:
+      current_password:
+        type: string
+      new_password:
+        type: string
+    type: object
+  models.User:
+    type: object
+  models.UserAuth:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: dimash.amurzakov@gmail.com
+    name: Dinmikhamed Amurzakov
+  description: Microservice with auth and notes of user and borrowed books
+  termsOfService: http://swagger.io/terms/
+  title: User Book microservice API
+  version: "1.0"
+paths:
+  /book/create:
+    post:
+      consumes:
+      - application/json
+      description: create book
+      operationId: create-book
+      parameters:
+      - description: book info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Book'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: id
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: CreateBook
+      tags:
+      - book
+  /book/delete:
+    get:
+      consumes:
+      - application/json
+      description: delete book by author
+      operationId: delete-book
+      parameters:
+      - description: author
+        in: path
+        name: author
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteBook
+      tags:
+      - book
+  /book/get_by_Author:
+    get:
+      consumes:
+      - application/json
+      description: get book by Author
+      operationId: get-book-by-author
+      parameters:
+      - description: Author
+        in: path
+        name: author
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: GetBookByAuthor
+      tags:
+      - book
+  /book/get_by_id:
+    get:
+      consumes:
+      - application/json
+      description: get book by ID
+      operationId: get-book-by-id
+      parameters:
+      - description: book id
+        in: path
+        name: book_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: GetBookByID
+      tags:
+      - book
+  /book/list:
+    get:
+      consumes:
+      - application/json
+      description: list books
+      operationId: list-books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Book'
+            type: array
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: ListBooks
+      tags:
+      - book
+  /note/create:
+    post:
+      consumes:
+      - application/json
+      description: create note
+      operationId: create-note
+      parameters:
+      - description: note info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Note'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: id
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: CreateNote
+      tags:
+      - notes
+  /note/delete:
+    get:
+      consumes:
+      - application/json
+      description: delete note
+      operationId: delete-note
+      parameters:
+      - description: note id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteNote
+      tags:
+      - notes
+  /notes/get_by_id/{notes_id}:
+    get:
+      consumes:
+      - application/json
+      description: get notes by ID
+      operationId: get-notes
+      parameters:
+      - description: notes id
+        in: path
+        name: notes_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Note'
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: GetNoteByID
+      tags:
+      - notes
+  /notes/list_notes:
+    get:
+      consumes:
+      - application/json
+      description: list notes
+      operationId: list-notes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Note'
+            type: array
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: ListNotes
+      tags:
+      - notes
+  /update-pass:
+    put:
+      consumes:
+      - application/json
+      description: update password
+      operationId: update-password
+      parameters:
+      - description: current and new password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePasswordReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: UpdatePassword
+      tags:
+      - auth
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: create user
+      operationId: create-account
+      parameters:
+      - description: account info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: id
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: CreateUser
+      tags:
+      - auth
+  /user/delete:
+    get:
+      consumes:
+      - application/json
+      description: delete user by username
+      operationId: delete-user-by-username
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: DeleteUser
+      tags:
+      - user
+  /user/get_by_id:
+    get:
+      consumes:
+      - application/json
+      description: get users by id
+      operationId: get-users-by_id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: GetUserByID
+      tags:
+      - user
+  /user/get_by_name:
+    get:
+      consumes:
+      - application/json
+      description: get users by username
+      operationId: get-users-by-username
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: GetUserByUsername
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: login
+      operationId: login
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserAuth'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ID, Name
+          schema:
+            type: string
+        "400":
+          description: message
+          schema:
+            type: string
+        "404":
+          description: message
+          schema:
+            type: string
+        "500":
+          description: message
+          schema:
+            type: string
+        default:
+          description: message
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

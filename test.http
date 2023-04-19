@@ -1,2 +1,9 @@
-GET localhost:8000/user/add
-Accept: application/json
+POST localhost:9000/user/create
+Content-Type: application/json
+
+{
+  "name":  "test",
+  "user_name": "test",
+  "password":  "testtest",
+  "email": "test"
+}

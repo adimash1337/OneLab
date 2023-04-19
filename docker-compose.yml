@@ -1,0 +1,29 @@
+version: "3.9"
+
+volumes:
+  loan-api_data:
+
+services:
+  book-app:
+    build: ./
+    command: ./1stDZOL
+    ports:
+      - "8586:8586"
+    volumes:
+      - .:/src
+    environment:
+      - GONOSUMDB=off
+      - TZ=Asia/Almaty
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13.2-alpine
+    volumes:
+      - loan-api_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=OneLab
+      - POSTGRES_USER=dimas
+      - POSTGRES_PASSWORD=dimash
+    ports:
+      - 5434:5434

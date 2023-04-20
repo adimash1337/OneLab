@@ -1,5 +1,5 @@
 FROM golang:latest AS stage1
-WORKDIR /1stDZOL
+WORKDIR /app
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
@@ -8,10 +8,9 @@ RUN GO111MODULE="on" CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app ./cmd
 
 FROM alpine:latest as stage2
 WORKDIR /app
-COPY --from=stage1 /app/app .
-COPY --from=stage1 /app/config /app/config
-COPY --from=stage1 /app/.env /app/
+COPY --from=stage1 /app/internal .
+COPY --from=stage1 /app/internal/config /app/internal/config
 COPY --from=stage1 /usr/local/go/lib/time/zoneinfo.zip /
 ENV TZ=Asia/Almaty
 ENV ZONEINFO=/zoneinfo.zip
-CMD ["./1stDZOL"]
+CMD ["./app"]
